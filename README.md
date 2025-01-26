@@ -37,8 +37,8 @@ This repo contains:
   WARNING: DEA-2024-0059 is **LARGE** and will take a few minutes to download.
 
   ```
-  aws s3 cp --recursive s3://mirrulations/DEA/DEA-2020-0008/ DEA-2020-0008
-  aws s3 cp --recursive s3://mirrulations/DEA/DEA-2024-0059/ DEA-2024-0059
+  aws s3 cp --recursive s3://mirrulations/DEA/DEA-2020-0008/ DEA-2020-0008 --no-sign-request
+  aws s3 cp --recursive s3://mirrulations/DEA/DEA-2024-0059/ DEA-2024-0059 --no-sign-request
   ```
   
   
