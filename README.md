@@ -26,6 +26,10 @@ This repo contains:
   ```
   export OPENSEARCH_INITIAL_ADMIN_PASSWORD=<password>
   ```
+
+  NOTE: including a `$` in the password as a special character leads to issues when running `docker compose` later on (the following text gets interpreted
+  as a shell variable), so avoid using `$` in your password.
+
 * Create a `.env` file containing:
 
   ```
