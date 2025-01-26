@@ -88,10 +88,10 @@ The `query.py` script will query OpenSearch to determine how many comments match
 
 ## Clean Up
 
-Data is stored in an external volume and will be retained if you stop the Docker containers.  Use the `delete_index.py` script to delete the data
+Data is stored in an external volume and will be retained if you stop the Docker containers.  Use the `delete_client.py` script to delete the data
 
   ```
-  python delete_index.py
+  python delete_client.py
   ```
   
 ## Shutdown OpenSearch
