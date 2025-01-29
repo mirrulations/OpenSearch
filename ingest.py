@@ -32,8 +32,8 @@ def ingest(client, document):
 def create_client():
     load_dotenv()
 
-    host = 'localhost'
-    port = 9200
+    host = os.getenv('OPENSEARCH_HOST')
+    port = os.getenv('OPENSEARCH_PORT')
     password = os.getenv('OPENSEARCH_INITIAL_PASSWORD')
     auth = ('admin', password)
     ca_certs_path = certifi.where()
