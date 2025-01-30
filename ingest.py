@@ -4,24 +4,7 @@ import json
 from dotenv import load_dotenv
 import certifi
 from opensearchpy import OpenSearch
-
-
-
-
-def make_document(filepath):
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-        # make a new dict with data.attributes.comment, data.attributes.agencyId, data.attributes.docketId, data.attributes.docketId.modifyDate, and data.id
-        document = {
-            'comment': data['data']['attributes']['comment'],
-            'agencyId': data['data']['attributes']['agencyId'],
-            'docketId': data['data']['attributes']['docketId'],
-            'modifyDate': data['data']['attributes']['modifyDate'],
-            'id': data['data']['id']
-        }
-
-        # print the new dict
-        return document
+import boto3
 
 
 def ingest(client, document):
@@ -53,19 +36,38 @@ def create_client():
 
     return client
 
+def ingest_comment(client, bucket, key):
+    obj = bucket.Object(key)
+    file_text = obj.get()['Body'].read().decode('utf-8')
+    data = json.loads(file_text)
+    document = {
+        'comment': data['data']['attributes']['comment'],
+        'agencyId': data['data']['attributes']['agencyId'],
+        'docketId': data['data']['attributes']['docketId'],
+        'modifyDate': data['data']['attributes']['modifyDate'],
+        'id': data['data']['id']
+    }
+    ingest(client, document)
 
-def walk_to_ingest(client, root):
-    subfolder = 'text-{}/comments'.format(root)
-    root = os.path.join(root, subfolder)
-    print(root)
-    for path, dirs, files in os.walk(root):
-        for file in files:
-            if file.endswith('.json'):
-                filepath = os.path.join(path, file)
-                ingest(client, make_document(filepath))
+def ingest_all_comments(client, bucket):
+    for obj in bucket.objects.all():
+        if obj.key.endswith('.json') and ('/comments/' in obj.key):
+            ingest_comment(client, bucket, obj.key)
 
+    pass
 
 if __name__ == '__main__':
     client = create_client()
-    walk_to_ingest(client, 'DEA-2020-0008')
-    walk_to_ingest(client, 'DEA-2024-0059')
+
+    s3 = boto3.resource(
+        service_name = 's3',
+        region_name = 'us-east-1',
+        aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+    )
+
+    print('boto3 created')
+
+    bucket = s3.Bucket(os.getenv('S3_BUCKET_NAME'))
+
+    ingest_all_comments(client, bucket)
