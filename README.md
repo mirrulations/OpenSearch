@@ -34,15 +34,11 @@ This repo contains:
 
   ```
   OPENSEARCH_INITIAL_PASSWORD=<password>
-  ```
-
-* Copy dockets from S3 (This step assumes you have the AWS CLI installed and configured).  In the root of this project run the following to download the data of two dockets.
-
-  WARNING: DEA-2024-0059 is **LARGE** and will take a few minutes to download.
-
-  ```
-  aws s3 cp --recursive s3://mirrulations/DEA/DEA-2020-0008/ DEA-2020-0008 --no-sign-request
-  aws s3 cp --recursive s3://mirrulations/DEA/DEA-2024-0059/ DEA-2024-0059 --no-sign-request
+  OPENSEARCH_HOST=<hostname>
+  OPENSEARCH_PORT=<port>
+  AWS_ACCESS_KEY_ID=<access-key>
+  AWS_SECRET_ACCESS_KEY=<secret-access-key>
+  S3_BUCKET_NAME=<bucket-name>
   ```
   
   
