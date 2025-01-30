@@ -34,6 +34,8 @@ This repo contains:
 
   ```
   OPENSEARCH_INITIAL_PASSWORD=<password>
+  OPENSEARCH_HOST=<hostname>
+  OPENSEARCH_PORT=<port>
   ```
 
 * Copy dockets from S3 (This step assumes you have the AWS CLI installed and configured).  In the root of this project run the following to download the data of two dockets.
