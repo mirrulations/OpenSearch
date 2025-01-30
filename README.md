@@ -36,8 +36,6 @@ This repo contains:
   OPENSEARCH_INITIAL_PASSWORD=<password>
   OPENSEARCH_HOST=<hostname>
   OPENSEARCH_PORT=<port>
-  AWS_ACCESS_KEY_ID=<access-key>
-  AWS_SECRET_ACCESS_KEY=<secret-access-key>
   S3_BUCKET_NAME=<bucket-name>
   ```
   
