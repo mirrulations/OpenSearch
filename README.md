@@ -18,14 +18,9 @@ This repo contains:
   source .venv/bin/activate
   pip install -r requirements.txt
   ```
-
-* Set your password as an environment variable for the `docker-compose` file.
+ ### Environment Variables
 
   The `<password>` must have at least one upper, lower, number, and special characters and be at least 8 characters.
-
-  ```
-  export OPENSEARCH_INITIAL_ADMIN_PASSWORD=<password>
-  ```
 
   NOTE: including a `$` in the password as a special character leads to issues when running `docker compose` later on (the following text gets interpreted
   as a shell variable), so avoid using `$` in your password.
