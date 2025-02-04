@@ -1,28 +1,32 @@
-from opensearchpy import OpenSearch
+from opensearchpy import OpenSearch, RequestsHttpConnection, AWSV4SignerAuth
 import os
 from dotenv import load_dotenv
 import certifi
+import boto3
 
 load_dotenv()
 
 
-host = 'localhost'
-port = 9200
-password = os.getenv('OPENSEARCH_INITIAL_PASSWORD')
-auth = ('admin', password)
-ca_certs_path = certifi.where()
+host = os.getenv('OPENSEARCH_HOST')
+port = os.getenv('OPENSEARCH_PORT')
+region = 'us-east-1'
+
+service = 'aoss'
+credentials = boto3.Session().get_credentials()
+auth = AWSV4SignerAuth(credentials, region, service)
+
 
 # Create the client with SSL/TLS enabled, but hostname verification disabled.
 client = OpenSearch(
-    hosts = [{'host': host, 'port': port}],
+    hosts=[{'host': host, 'port': port}],
     http_compress = True, # enables gzip compression for request bodies
-    http_auth = auth,
-    use_ssl = True,
-    verify_certs = False,
-    ssl_assert_hostname = False,
-    ssl_show_warn = False,
-    ca_certs = ca_certs_path
+    http_auth=auth,
+    use_ssl=True,
+    verify_certs=True,
+    connection_class=RequestsHttpConnection,
+    pool_maxsize=20,
 )
+
 index_name = "comments"
 
 query = {
