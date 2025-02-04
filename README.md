@@ -18,6 +18,9 @@ This repo contains:
   source .venv/bin/activate
   pip install -r requirements.txt
   ```
+  
+  
+## Local Deployment
 
 * Set your password as an environment variable for the `docker-compose` file.
 
@@ -34,13 +37,14 @@ This repo contains:
 
   ```
   OPENSEARCH_INITIAL_PASSWORD=<password>
-  OPENSEARCH_HOST=<hostname>
-  OPENSEARCH_PORT=<port>
+  OPENSEARCH_HOST=localhost
+  OPENSEARCH_PORT=9200
   S3_BUCKET_NAME=<bucket-name>
   ```
-  
-  
-## Start OpenSearch
+
+In the .env file, set the hostname to `localhost` and the port to `9200`.
+
+### Start OpenSearch
 
 Based on the [quickstart](https://opensearch.org/docs/latest/getting-started/quickstart/).  I ignored step 1, and it worked fine on my laptop.
 
@@ -61,34 +65,10 @@ And confirm that you can communicate with the server (#5 of the [quickstart](htt
   ```
   curl https://localhost:9200 -ku admin:<custom-admin-password>
   ```  
+
+If there is already data in the local OpenSearch instance, it takes time to load the data from the external volume. If you get an error related to `UNEXPECTED_EOF_WHILE_READING` when running a query, just wait and the issue will resolve itself.
   
-## Ingest
-
-With the virtual environment active and OpenSearch running via Docker, run the ingest script:
-
-  ```
-  python ingest.py
-  ```
-  
-  This will produce one line of output per comment.  It takes a few minutes to complete.
-  
-## Query
-
-The `query.py` script will query OpenSearch to determine how many comments match "drug" in each docket.
-
-  ```
-  python query.py
-  ```
-
-## Clean Up
-
-Data is stored in an external volume and will be retained if you stop the Docker containers.  Use the `delete_client.py` script to delete the data
-
-  ```
-  python delete_client.py
-  ```
-  
-## Shutdown OpenSearch
+### Shutdown OpenSearch
 
 To stop OpenSearch, run
 
@@ -96,4 +76,42 @@ To stop OpenSearch, run
   docker compose down
   ```
   
+## Cloud Deployment
+
+* Create a `.env` file containing:
+
+  ```
+  OPENSEARCH_HOST=<hostname>
+  OPENSEARCH_PORT=443
+  S3_BUCKET_NAME=<bucket-name>
+  ```
+
+The hostname is the OpenSearch endpoint of the collection.
     
+## Perform Operations
+
+### Ingest
+
+With the virtual environment active, run the ingest script:
+
+  ```
+  python ingest.py
+  ```
+  
+This will produce one line of output per comment.  It takes a few minutes to complete.
+  
+### Query
+
+The `query.py` script will query OpenSearch to determine how many comments match "drug" in each docket.
+
+  ```
+  python query.py
+  ```
+
+### Clean Up
+
+This is for deleting data from an OpenSearch instance. Locally and in production, data will remain stored unless you run `delete_client.py`. Use the `delete_client.py` script to delete the data
+
+  ```
+  python delete_client.py
+  ```

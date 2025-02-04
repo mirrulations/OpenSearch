@@ -1,40 +1,12 @@
-
 import os
 import json
-from dotenv import load_dotenv
-import certifi
-from opensearchpy import OpenSearch
 import boto3
+from create_client import create_client
 
 
 def ingest(client, document):
-    response = client.index(index = 'comments', body = document, refresh = True)
+    response = client.index(index = 'comments', body = document)
     print(response)
-
-
-def create_client():
-    load_dotenv()
-
-    host = os.getenv('OPENSEARCH_HOST')
-    port = os.getenv('OPENSEARCH_PORT')
-    password = os.getenv('OPENSEARCH_INITIAL_PASSWORD')
-    auth = ('admin', password)
-    ca_certs_path = certifi.where()
-
-
-    # Create the client with SSL/TLS enabled, but hostname verification disabled.
-    client = OpenSearch(
-        hosts = [{'host': host, 'port': port}],
-        http_compress = True, # enables gzip compression for request bodies
-        http_auth = auth,
-        use_ssl = True,
-        verify_certs = False,
-        ssl_assert_hostname = False,
-        ssl_show_warn = False,
-        ca_certs = ca_certs_path
-    )
-
-    return client
 
 def ingest_comment(client, bucket, key):
     obj = bucket.Object(key)
