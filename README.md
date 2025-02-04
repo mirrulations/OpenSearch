@@ -65,6 +65,8 @@ And confirm that you can communicate with the server (#5 of the [quickstart](htt
   ```
   curl https://localhost:9200 -ku admin:<custom-admin-password>
   ```  
+
+If there is already data in the local OpenSearch instance, it takes time to load the data from the external volume. If you get an error related to `UNEXPECTED_EOF_WHILE_READING` when running a query, just wait and the issue will resolve itself.
   
 ### Shutdown OpenSearch
 
@@ -108,7 +110,7 @@ The `query.py` script will query OpenSearch to determine how many comments match
 
 ### Clean Up
 
-Data is stored in an external volume and will be retained if you stop the Docker containers.  Use the `delete_client.py` script to delete the data
+This is for deleting data from an OpenSearch instance. Locally and in production, data will remain stored unless you run `delete_client.py`. Use the `delete_client.py` script to delete the data
 
   ```
   python delete_client.py
