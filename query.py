@@ -16,7 +16,7 @@ query = {
                 "matching_comments": {
                     "filter": {
                         "match": {
-                            "comment": "drug"
+                            "commentText": "drug"
                         }
                     }
                 }

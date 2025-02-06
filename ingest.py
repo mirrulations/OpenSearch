@@ -13,11 +13,9 @@ def ingest_comment(client, bucket, key):
     file_text = obj.get()['Body'].read().decode('utf-8')
     data = json.loads(file_text)
     document = {
-        'comment': data['data']['attributes']['comment'],
-        'agencyId': data['data']['attributes']['agencyId'],
+        'commentText': data['data']['attributes']['comment'],
         'docketId': data['data']['attributes']['docketId'],
-        'modifyDate': data['data']['attributes']['modifyDate'],
-        'id': data['data']['id']
+        'commentId': data['data']['id']
     }
     ingest(client, document)
 
