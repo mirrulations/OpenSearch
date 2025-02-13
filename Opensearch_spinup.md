@@ -55,6 +55,7 @@ aws opensearchserverless create-vpc-endpoint
     --subnet-ids subnet-id-list
     --security-group-ids security-group-list
 ```
+Documentation for this command is [here](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/opensearchserverless/create-vpc-endpoint.html).
 
 **The step above is currently the one failing.**
 
