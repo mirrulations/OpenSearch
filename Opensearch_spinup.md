@@ -40,3 +40,38 @@ Note: This section is where you give permissions to perform actions on the colle
     - You can now run queries on your collection in this environment
 - Refer to this Official AWS Tutorial for more info on the basics of how to use OpenSearch Dashboards:
     - https://docs.aws.amazon.com/opensearch-service/latest/developerguide/quick-start.html
+
+
+## Spin Up a Private Instance with CLI
+
+This will walk you through setting up a private instance of OpenSearch Serverless (OSS) that is accessible via an EC2 instance. We will call our collection `collection-name` in this example. 
+
+First, we will create the VPC endpoint that we will use to interact with the OSS instance. Run the following command:
+
+```
+aws opensearchserverless create-vpc-endpoint
+    --name collection-name-endpoint
+    --vpc-id vpc-id
+    --subnet-ids subnet-id-list
+    --security-group-ids security-group-list
+```
+
+**The step above is currently the one failing.**
+
+After this, we must create a security policy using 
+```
+aws opensearchserverless create-security-policy
+```
+as described [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-create). Documentation for the command is [here](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/opensearchserverless/create-security-policy.html). The security policy has to allow traffic from the VPC endpoint previously created.
+
+Following that, we will have permission to create a collection using
+```
+aws opensearchserverless create-collection
+``` 
+as described [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-create). Documentation for the command is [here](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/opensearchserverless/create-collection.html).
+
+Finally, we must create a data access policy using
+```
+aws opensearchserverless create-access-policy
+```
+as described [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html#serverless-data-access-cli). This policy will allow traffic from the VPC endpoint created above. Documentation for the command is [here](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/opensearchserverless/create-access-policy.html).
