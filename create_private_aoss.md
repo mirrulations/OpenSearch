@@ -27,17 +27,19 @@
     - Security group name: `Enter the security group name`
     - Description: `Enter the security group description`
     - VPC: `Select the VPC you created in Step 1`
-    - Inbound rules: 
-        - Type: `SSH`
-        - Protocol: `TCP`
-        - Port Range: `22`
-        - Source: `0.0.0.0/0`
-        - Description: `Enter a description`
-        - Type: `HTTPS`
-        - Protocol: `TCP`
-        - Port Range: `443`
-        - Source: `10.0.0.0/16`
-        - Description: `Enter a description`
+    - Create two inbound rules: 
+        - Rule 1:
+            - Type: `SSH`
+            - Protocol: `TCP`
+            - Port Range: `22`
+            - Source: `0.0.0.0/0`
+            - Description: `Enter a description`
+        - Rule 2:
+            - Type: `HTTPS`
+            - Protocol: `TCP`
+            - Port Range: `443`
+            - Source: `10.0.0.0/16`
+            - Description: `Enter a description`
     - Outbound rules:
         - Type: `HTTPS`
         - Protocol: `TCP`
@@ -55,7 +57,8 @@
     - Type: `ED25519`
     - File format: `.pem`
     - Click on `"Create Key Pair"`
-- `Save the key pair in a secure location`
+- Save the key pair in a secure location
+    - Make sure that the key has the correct permission. It can only be accessible by the user. For example use `chmod 600 <key-name>.pem` to set proper permissions.
 
 #### Step 4: Create a VPC Endpoint
 - Go to Opensearch service in the AWS Management Console
@@ -124,6 +127,10 @@
     ```
     sudo yum install git
     ```
+- Configure your AWS credentials
+    ```
+    aws configure
+    ```
 
 - Clone the repository
     ```
@@ -134,7 +141,7 @@
     cd <repository name>
     ```
 
-#### Step 8: Begin the setup process in the README.md file
+#### Step 8: Begin the setup process in the Cloud Deployment section of the README.md file
 
 
 
